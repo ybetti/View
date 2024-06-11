@@ -1,23 +1,3 @@
-document.getElementById('fileInput').addEventListener('change', loadImage);
-document.getElementById('detectDefects').addEventListener('click', detectDefects);
-
-function loadImage(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
-        img.src = e.target.result;
-    };
-
-    reader.readAsDataURL(file);
-}
-
 function detectDefects() {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
