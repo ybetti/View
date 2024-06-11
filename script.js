@@ -1,11 +1,10 @@
-// script.js
 document.getElementById('fileInput').addEventListener('change', loadImage);
 document.getElementById('detectDefects').addEventListener('click', detectDefects);
 
 function loadImage(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
@@ -15,7 +14,7 @@ function loadImage(event) {
         };
         img.src = e.target.result;
     };
-    
+
     reader.readAsDataURL(file);
 }
 
@@ -26,7 +25,7 @@ function detectDefects() {
     const width = imageData.width;
     const height = imageData.height;
     const data = imageData.data;
-    
+
     const sobelData = [];
     const grayscaleData = [];
 
@@ -40,7 +39,7 @@ function detectDefects() {
     for (let y = 1; y < height - 1; y++) {
         for (let x = 1; x < width - 1; x++) {
             const index = (y * width + x) * 4;
-            
+
             const gx = (
                 -1 * grayscaleData[((y - 1) * width + (x - 1)) * 4] +
                 -2 * grayscaleData[(y * width + (x - 1)) * 4] +
@@ -49,7 +48,7 @@ function detectDefects() {
                 2 * grayscaleData[(y * width + (x + 1)) * 4] +
                 1 * grayscaleData[((y + 1) * width + (x + 1)) * 4]
             );
-            
+
             const gy = (
                 -1 * grayscaleData[((y - 1) * width + (x - 1)) * 4] +
                 -2 * grayscaleData[((y - 1) * width + x) * 4] +
@@ -70,6 +69,4 @@ function detectDefects() {
     // 新しい画像データを作成してキャンバスに表示
     const newImageData = new ImageData(new Uint8ClampedArray(sobelData), width, height);
     ctx.putImageData(newImageData, 0, 0);
-}
-
 }
